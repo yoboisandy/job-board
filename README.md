@@ -16,10 +16,11 @@
  **Job Seeker**
  email: test@user.com
  password: password
+
 **Employer**
 email: test@employer.com
 password: password
 
-For testing apis you can visit postman from this link: https://documenter.getpostman.com/view/16415951/2sA3rwNaB1
+You can access API documentation from this link: https://documenter.getpostman.com/view/16415951/2sA3rwNaB1
 
-And click on `Run On Postman` button on the top right corner then you can fork this collection and test all apis. 
+If you want to test then click on `Run On Postman` button on the top right corner then you can fork this collection and test all apis using above credentials.
