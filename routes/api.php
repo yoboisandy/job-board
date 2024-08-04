@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JobListingController;
+use App\Http\Controllers\SubmissionController;
 use App\Http\Middleware\IsEmployer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,3 +29,10 @@ Route::controller(JobListingController::class)->prefix('jobs')->group(function (
     // public routes to search jobs
     Route::get('/', 'index');
 });
+
+// submission routes
+Route::controller(SubmissionController::class)->prefix('submissions')
+    ->middleware('auth:sanctum')->group(function () {
+        // submission route for job seekers
+        Route::post('/', 'store');
+    });
