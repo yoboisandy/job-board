@@ -25,5 +25,6 @@ Route::controller(JobListingController::class)->prefix('jobs')->group(function (
         Route::delete('/{jobListing}', 'destroy');
     });
 
-    // public routes
+    // public routes to search jobs
+    Route::get('/', 'index');
 });

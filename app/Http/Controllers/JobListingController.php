@@ -13,9 +13,22 @@ class JobListingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $jobs = JobListing::query()->orderByDesc('created_at');
+
+        if ($request->q)
+            $jobs->where('title', 'like', "%{$request->q}%");
+
+        if ($request->location)
+            $jobs->where('location', 'like', "%{$request->location}%");
+
+        if ($request->company)
+            $jobs->where('company', 'like', "%{$request->company}%");
+
+        $jobs = $jobs->get();
+
+        return APIHelper::success(null, $jobs);
     }
 
     /**
