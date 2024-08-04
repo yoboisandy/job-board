@@ -64,6 +64,10 @@ class JobListingController extends Controller
      */
     public function update(UpdateJobListingRequest $request, JobListing $jobListing)
     {
+        if ($jobListing->user_id != auth()->id()) {
+            return APIHelper::error("You are not authorized to update this resource", null, 403);
+        }
+
         $data = $request->validated();
 
         $jobListing->update($data);
@@ -76,6 +80,10 @@ class JobListingController extends Controller
      */
     public function destroy(JobListing $jobListing)
     {
+        if ($jobListing->user_id != auth()->id()) {
+            return APIHelper::error("You are not authorized to delete this resource", null, 403);
+        }
+
         $jobListing->delete();
 
         return APIHelper::success("Job deleted successfully");
