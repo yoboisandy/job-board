@@ -62,7 +62,7 @@ class NewSubmissionNotification extends Notification implements ShouldQueue
     public function withDelay(object $notifiable): array
     {
         return [
-            'mail' => now()->addMinutes(1),
+            'mail' => now()->addMinutes(10),
         ];
     }
 }
