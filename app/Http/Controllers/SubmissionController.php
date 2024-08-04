@@ -6,6 +6,7 @@ use App\Helpers\APIHelper;
 use App\Http\Requests\StoreSubmissionRequest;
 use App\Http\Resources\SubmissionResource;
 use App\Models\Submission;
+use App\Notifications\ApplicationApprovedOrRejectedNotification;
 use App\Notifications\NewSubmissionNotification;
 use Exception;
 use Illuminate\Http\Request;
@@ -76,14 +77,28 @@ class SubmissionController extends Controller
      */
     public function update(Request $request, Submission $submission)
     {
-        //
-    }
+        $data = $request->validate([
+            'status' => 'required|in:approved,rejected',
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Submission $submission)
-    {
-        //
+        if ($submission->status != 'pending') {
+            throw new Exception("You can only update the status of a pending submission");
+        }
+
+        $submission->update($data);
+        $submission = $submission->fresh();
+
+        // send an email to the applicant
+        $submission->user->notify(
+            new ApplicationApprovedOrRejectedNotification(
+                $submission->status,
+                $submission->jobListing->title
+            )
+        );
+
+        return APIHelper::success(
+            "Submission updated successfully",
+            new SubmissionResource($submission)
+        );
     }
 }

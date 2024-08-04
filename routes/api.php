@@ -34,5 +34,8 @@ Route::controller(SubmissionController::class)->prefix('submissions')
     ->middleware('auth:sanctum')->group(function () {
         // submission route for job seekers
         Route::post('/', 'store');
-    Route::get('/', 'index')->middleware(IsEmployer::class);
+
+        // submission routes for employers
+        Route::get('/', 'index')->middleware(IsEmployer::class);
+        Route::put('/{submission}', 'update')->middleware(IsEmployer::class);
     });
