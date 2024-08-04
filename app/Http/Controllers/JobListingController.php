@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\APIHelper;
 use App\Http\Requests\StoreJobListingRequest;
+use App\Http\Requests\UpdateJobListingRequest;
 use App\Models\JobListing;
 use Illuminate\Http\Request;
 
@@ -28,23 +29,19 @@ class JobListingController extends Controller
 
         $jobListing = JobListing::create($data);
 
-        return APIHelper::success("Job listing created successfully", $jobListing);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(JobListing $jobListing)
-    {
-        //
+        return APIHelper::success("Job created successfully", $jobListing);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, JobListing $jobListing)
+    public function update(UpdateJobListingRequest $request, JobListing $jobListing)
     {
-        //
+        $data = $request->validated();
+
+        $jobListing->update($data);
+
+        return APIHelper::success("Job updated successfully", $jobListing->fresh());
     }
 
     /**
@@ -52,6 +49,8 @@ class JobListingController extends Controller
      */
     public function destroy(JobListing $jobListing)
     {
-        //
+        $jobListing->delete();
+
+        return APIHelper::success("Job deleted successfully");
     }
 }

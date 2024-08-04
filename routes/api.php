@@ -17,5 +17,7 @@ Route::controller(AuthController::class)->prefix('auth')->group(function () {
 Route::controller(JobListingController::class)->prefix('jobs')->group(function () {
     Route::middleware(['auth:sanctum', IsEmployer::class])->group(function () {
         Route::post('/', 'store');
+        Route::put('/{jobListing}', 'update');
+        Route::delete('/{jobListing}', 'destroy');
     });
 });
