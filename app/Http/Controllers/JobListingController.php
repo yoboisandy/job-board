@@ -19,6 +19,20 @@ class JobListingController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     */
+    public function getEmployerJobs($employerId)
+    {
+        if (auth()->id() != $employerId) {
+            return APIHelper::error("You are not authorized to view this resource", null, 403);
+        }
+
+        $jobs = JobListing::where('user_id', $employerId)->orderByDesc('created_at')->get();
+
+        return APIHelper::success(null, $jobs);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreJobListingRequest $request)
