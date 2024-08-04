@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\APIHelper;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class IsEmployer
@@ -15,8 +17,9 @@ class IsEmployer
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->user()->is_employer) {
-            return response('Unauthorized.', 401);
+        Log::info(auth()->user());
+        if (!auth()->user()?->is_employer) {
+            return APIHelper::error("You are not authorized to perform this action", null, 403);
         }
         return $next($request);
     }

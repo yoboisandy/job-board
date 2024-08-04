@@ -15,6 +15,7 @@ class AuthController extends Controller
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8',
+            'is_employer' => 'nullable|boolean',
         ]);
 
         $data['password'] = bcrypt($data['password']);
